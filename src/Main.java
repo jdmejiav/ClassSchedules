@@ -7,19 +7,12 @@ public class Main {
 
 
 	public static void main (String args[]){
-		String Archivo="";
-		File file;
 
-		if (args.length==0){
-			Scanner entrada = new Scanner(System.in);
-			Archivo = entrada.nextLine();
-
-			file = new File (Archivo);
-		}else {
-			file = new File (args[0]);
-		}
-		MapaUniversidad mapa = new MapaUniversidad(file);
-		System.out.println(mapa.getMapa()[38][31]);
+		File estudiantes = new File ("estudiantes.csv");
+		File programacion = new File ("pa20192.csv");
+		File mapa = new File ("DistanciaBloques.csv");
+		MapaUniversidad mapaU = new MapaUniversidad(mapa,estudiantes,programacion);
+		//System.out.println(mapa.getMapa()[38][31]);
 	}
 
 
