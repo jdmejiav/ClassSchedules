@@ -3,8 +3,6 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.ArrayIndexOutOfBoundsException;
 
 
 public class MapaUniversidad {
@@ -52,20 +50,23 @@ public class MapaUniversidad {
 				}
 				if (scProgramacion.hasNext()) {
 					tempProgramacion = scProgramacion.next().split(",");
+					if (tempProgramacion.length == 7) {
 					this.programacion.put(tempProgramacion[0], new Programacion(tempProgramacion[0],
 							Integer.parseInt(tempProgramacion[1]), tempProgramacion[2], tempProgramacion[3],
 							tempProgramacion[4], tempProgramacion[5], Integer.parseInt(tempProgramacion[6])));
 				}
 				if (scAulas.hasNext()) {
+
 					tempAulas = scAulas.next().split(",");
-					this.aulas.put(tempAulas[0], new Aulas( tempAulas[0], 
-					tempAulas[1], Integer.parseInt(tempAulas[2])));
+					if (tempAulas.length==4){
+						this.aulas.put(tempAulas[0], new Aulas( tempAulas[0],
+						tempAulas[1],tempAulas[2],Integer.parseInt(tempAulas[3])));
+					}
+					}
 				}
 			}
 		}catch (FileNotFoundException fnfe){
 			System.err.println("Archivo no encontrado");
-		}catch (ArrayIndexOutOfBoundsException e) {
-			System.err.println();
 		}
 	}
 
