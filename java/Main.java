@@ -12,10 +12,10 @@ public class Main {
 	*/
 	public static void main(String[] args) {
 
-		File estudiantes = new File(args[0]);
-		File programacion = new File(args[1]);
-		File mapa = new File(args[2]);
-		File aulas = new File(args[3]);
+		File estudiantes = new File("estudiantes.csv");
+		File programacion = new File("pa20192.csv");
+		File mapa = new File("DistanciasBloques.csv");
+		File aulas = new File("aulas.csv");
 		MapaUniversidad mapaU = new MapaUniversidad(mapa, estudiantes, programacion, aulas);
 		//System.out.println(mapa.getMapa()[38][31]);
 	}
