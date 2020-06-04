@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
-
+import java.util.Stack;
 
 public class MapaUniversidad {
 
@@ -11,7 +11,8 @@ public class MapaUniversidad {
 	private final int[][] mapa = new int[40][40];
 
 	// codigo_estudiante, discapacidad
-	private final HashMap<Integer, Integer> estudiantes;
+	private final HashMap<Integer, Integer> estudiantes = new HashMap<Integer,Integer>();
+	private final ArrayList <Integer> estudiantesDiscapacitado = new ArrayList <Integer>();
 
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
 
@@ -46,6 +47,7 @@ public class MapaUniversidad {
 				if (scMapa.hasNext()) {
 					tempMapa = scMapa.next().split(",");
 					this.mapa[Integer.parseInt(tempMapa[0])][Integer.parseInt(tempMapa[1])] = Integer.parseInt(tempMapa[2]);
+					this.mapa[Integer.parseInt(tempMapa[1])][Integer.parseInt(tempMapa[0])] = Integer.ParseInt(tempMapa[2]);
 				}
 				if (scEstudiantes.hasNext()) {
 					tempEstudiantes = scEstudiantes.next().split(",");
