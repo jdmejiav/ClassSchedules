@@ -30,7 +30,7 @@ public class MapaUniversidad{
 			String tempMapa[];
 			String tempEstudiantes[];
 			String tempProgramacion[];
-			while (scMapa.hasNext()||scEstudiantes.hasNext() || scProgramacion.hashNext()){
+			while (scMapa.hasNext()||scEstudiantes.hasNext() || scProgramacion.hasNext()){
 				if (scMapa.hasNext()) {
 					tempMapa= scMapa.next().split("");
 					this.mapa[Integer.parseInt(tempMapa[0])][Integer.parseInt(tempMapa[1])]=Integer.parseInt(tempMapa[2]);
