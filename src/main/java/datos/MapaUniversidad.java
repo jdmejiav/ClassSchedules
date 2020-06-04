@@ -1,8 +1,14 @@
+package datos;
+
+
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.ArrayIndexOutOfBoundsException;
+
 
 public class MapaUniversidad{
 
@@ -30,9 +36,9 @@ public class MapaUniversidad{
 			String tempMapa[];
 			String tempEstudiantes[];
 			String tempProgramacion[];
-			while (scMapa.hasNext()||scEstudiantes.hasNext() || scProgramacion.hashNext()){
+			while (scMapa.hasNext()||scEstudiantes.hasNext() || scProgramacion.hasNext()){
 				if (scMapa.hasNext()) {
-					tempMapa= scMapa.next().split("");
+					tempMapa= scMapa.next().split(",");
 					this.mapa[Integer.parseInt(tempMapa[0])][Integer.parseInt(tempMapa[1])]=Integer.parseInt(tempMapa[2]);
 				}
 				if (scEstudiantes.hasNext()) {
@@ -49,6 +55,8 @@ public class MapaUniversidad{
 			}
 		}catch (FileNotFoundException fnfe){
 			System.err.println("Archivo no encontrado");
+		}catch (ArrayIndexOutOfBoundsException e){
+			System.err.println("");
 		}
 	}
 
