@@ -11,7 +11,7 @@ public class MapaUniversidad{
 
 	// codigo_estudiante, discapacidad
 	private HashMap <Integer,Integer> estudiantes;
-
+	//<Codigo Materia, Objeto Programacion de esa materia>
 	private HashMap <String, Programacion> programacion= new HashMap<String,Programacion>();
 	public MapaUniversidad(File mapa,File estudiantes, File programacion) {
 		this.estudiantes = new HashMap<Integer,Integer>();
