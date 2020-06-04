@@ -1,2 +1,2 @@
-javac -d ../target *;
-java -cp ../target Main DistanciasBloques.csv
+javac -d ../target *.java;
+java -cp ../target Main;
