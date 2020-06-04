@@ -17,7 +17,8 @@ public class Main {
 		File estudiantes = new File (args[0]);
 		File programacion = new File (args[1]);
 		File mapa = new File (args[2]);
-		MapaUniversidad mapaU = new MapaUniversidad(mapa,estudiantes,programacion);
+		File aulas = new File (args[3]);
+		MapaUniversidad mapaU = new MapaUniversidad(mapa,estudiantes,programacion,aulas);
 		//System.out.println(mapa.getMapa()[38][31]);
 	}
 

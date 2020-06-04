@@ -19,24 +19,31 @@ public class MapaUniversidad{
 	private HashMap <Integer,Integer> estudiantes;
 
 	private HashMap <String, Programacion> programacion= new HashMap<String,Programacion>();
-	public MapaUniversidad(File mapa,File estudiantes, File programacion) {
+
+	private HashMap <Integer, Aulas> aulas = new HashMap <Integer,Aulas> ();
+
+
+	public MapaUniversidad(File mapa,File estudiantes, File programacion, File aulas) {
 		this.estudiantes = new HashMap<Integer,Integer>();
-		llenarGrafo(mapa,estudiantes,programacion);
+		llenarGrafo(mapa,estudiantes,programacion,aulas);
 	}
 
 	public int[][] getMapa () {
 		return this.mapa;
 	}
-	public void llenarGrafo(File mapa,File estudiantes,File programacion) {
+	public void llenarGrafo(File mapa, File estudiantes, File programacion, File aulas) {
 
 		try {
 			Scanner scMapa = new Scanner (mapa);
 			Scanner scEstudiantes = new Scanner (estudiantes);
 			Scanner scProgramacion = new Scanner (programacion);
+			Scanner scAulas = new Scanner (aulas);
 			String tempMapa[];
 			String tempEstudiantes[];
 			String tempProgramacion[];
-			while (scMapa.hasNext()||scEstudiantes.hasNext() || scProgramacion.hasNext()){
+			String tempAulas[];
+			while (scMapa.hasNext()||scEstudiantes.hasNext() || scProgramacion.hasNext()
+			|| scAulas.hasNext()){
 				if (scMapa.hasNext()) {
 					tempMapa= scMapa.next().split(",");
 					this.mapa[Integer.parseInt(tempMapa[0])][Integer.parseInt(tempMapa[1])]=Integer.parseInt(tempMapa[2]);
@@ -51,7 +58,11 @@ public class MapaUniversidad{
 					Integer.parseInt(tempProgramacion[1]),tempProgramacion[2],tempProgramacion[3],
 					tempProgramacion[4],tempProgramacion[5],Integer.parseInt(tempProgramacion[6])));
 				}
-
+				if (scAulas.hasNext()){
+					tempAulas = scAulas.next().split(",");
+					this.aulas.put(new Integer (Integer.parseInt(tempAulas[0])),new Aulas(
+					Integer.parseInt(tempAulas[0]),tempAulas[1],Integer.parseInt(tempAulas[2])));
+				}
 			}
 		}catch (FileNotFoundException fnfe){
 			System.err.println("Archivo no encontrado");
