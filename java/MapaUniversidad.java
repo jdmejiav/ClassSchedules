@@ -17,27 +17,30 @@ public class MapaUniversidad {
 
 	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
 
+	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
 
-	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas) {
+	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
 		this.estudiantes = new HashMap<Integer, Integer>();
-		llenarGrafo(mapa, estudiantes, programacion, aulas);
+		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
 	}
 
 	public int[][] getMapa() {
 		return this.mapa;
 	}
 
-	public void llenarGrafo(File mapa, File estudiantes, File programacion, File aulas) {
+	public void llenarGrafo(File mapa, File estudiantes, File programacion, File aulas, File materias) {
 
 		try {
 			Scanner scMapa = new Scanner(mapa);
 			Scanner scEstudiantes = new Scanner(estudiantes);
 			Scanner scProgramacion = new Scanner(programacion);
 			Scanner scAulas = new Scanner(aulas);
+			Scanner scMaterias = new Scanner (materias);
 			String[] tempMapa;
 			String[] tempEstudiantes;
 			String[] tempProgramacion;
 			String[] tempAulas;
+			String[] tempMaterias;
 			while (scMapa.hasNext() || scEstudiantes.hasNext() || scProgramacion.hasNext()
 					|| scAulas.hasNext()) {
 				if (scMapa.hasNext()) {
@@ -54,16 +57,25 @@ public class MapaUniversidad {
 					this.programacion.put(tempProgramacion[0], new Programacion(tempProgramacion[0],
 							Integer.parseInt(tempProgramacion[1]), tempProgramacion[2], tempProgramacion[3],
 							tempProgramacion[4], tempProgramacion[5], Integer.parseInt(tempProgramacion[6])));
+					}
 				}
 				if (scAulas.hasNext()) {
 
 					tempAulas = scAulas.next().split(",");
 					if (tempAulas.length==4){
-						this.aulas.put(tempAulas[0], new Aulas( tempAulas[0],
+						this.aulas.put(tempAulas[0]+"-"+tempAulas[1], new 
+						Aulas( tempAulas[0],
 						tempAulas[1],tempAulas[2],Integer.parseInt(tempAulas[3])));
 					}
+				}
+				if (scMaterias.hasNext()) {
+					tempMaterias=scMaterias.next().split(",");
+					if (tempMaterias.length==3){
+						this.materias.put(tempMaterias[0],new 
+						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
 					}
 				}
+
 			}
 		}catch (FileNotFoundException fnfe){
 			System.err.println("Archivo no encontrado");
