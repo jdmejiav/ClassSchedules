@@ -17,7 +17,7 @@ public class MapaUniversidad {
 
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
 
-	private final HashMap<Integer, Aulas> aulas = new HashMap<Integer, Aulas>();
+	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
 
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas) {
@@ -58,8 +58,8 @@ public class MapaUniversidad {
 				}
 				if (scAulas.hasNext()) {
 					tempAulas = scAulas.next().split(",");
-					this.aulas.put(new Integer(Integer.parseInt(tempAulas[0])), new Aulas(
-							Integer.parseInt(tempAulas[0]), tempAulas[1], Integer.parseInt(tempAulas[2])));
+					this.aulas.put(tempAulas[0], new Aulas( tempAulas[0], 
+					tempAulas[1], Integer.parseInt(tempAulas[2])));
 				}
 			}
 		}catch (FileNotFoundException fnfe){
