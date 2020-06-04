@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Stack;
+import java.util.ArrayList;
 
 public class MapaUniversidad {
 
@@ -21,7 +21,7 @@ public class MapaUniversidad {
 	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
-		this.estudiantes = new HashMap<Integer, Integer>();
+
 		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
 	}
 
@@ -47,7 +47,7 @@ public class MapaUniversidad {
 				if (scMapa.hasNext()) {
 					tempMapa = scMapa.next().split(",");
 					this.mapa[Integer.parseInt(tempMapa[0])][Integer.parseInt(tempMapa[1])] = Integer.parseInt(tempMapa[2]);
-					this.mapa[Integer.parseInt(tempMapa[1])][Integer.parseInt(tempMapa[0])] = Integer.ParseInt(tempMapa[2]);
+					this.mapa[Integer.parseInt(tempMapa[1])][Integer.parseInt(tempMapa[0])] = Integer.parseInt(tempMapa[2]);
 				}
 				if (scEstudiantes.hasNext()) {
 					tempEstudiantes = scEstudiantes.next().split(",");
@@ -65,7 +65,7 @@ public class MapaUniversidad {
 
 					tempAulas = scAulas.next().split(",");
 					if (tempAulas.length==4){
-						this.aulas.put(tempAulas[0]+"-"+tempAulas[1], new 
+						this.aulas.put(tempAulas[0]+"-"+tempAulas[1], new
 						Aulas( tempAulas[0],
 						tempAulas[1],tempAulas[2],Integer.parseInt(tempAulas[3])));
 					}
@@ -73,7 +73,7 @@ public class MapaUniversidad {
 				if (scMaterias.hasNext()) {
 					tempMaterias=scMaterias.next().split(",");
 					if (tempMaterias.length==3){
-						this.materias.put(tempMaterias[0],new 
+						this.materias.put(tempMaterias[0],new
 						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
 					}
 				}
