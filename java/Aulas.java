@@ -5,6 +5,7 @@ public class Aulas {
 	private final String capacidad;
 	private final int acceso;
 
+
 	private final int [][] horario = new int [6][30];
 	private final String [][] horarioAula = new String [60][60];
 
@@ -39,5 +40,8 @@ public class Aulas {
 			horario [d][i] = 1;
 			horarioAula [d][i] = aula;
 		}
+
+		
+
 	}
 }

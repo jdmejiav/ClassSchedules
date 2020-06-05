@@ -14,15 +14,19 @@ public class MapaUniversidad {
 	private final HashMap<Integer, Integer> estudiantes = new HashMap<Integer,Integer>();
 	private final ArrayList <Integer> estudiantesDiscapacitados = new ArrayList <Integer>();
 
+	//clave= codigoMateria-numeroGrupo
+	//valor= Programacion
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
+	private final ArrayList<String> idProgramacion = new ArrayList<String>();
 
 	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
+	private final ArrayList <String> idAulas= new ArrayList<String>();
 
 	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
-
 		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
+		llenarAulas();
 	}
 
 	public int[][] getMapa() {
@@ -54,22 +58,25 @@ public class MapaUniversidad {
 				if (scEstudiantes.hasNext()) {
 					tempEstudiantes = scEstudiantes.next().split(",");
 					this.estudiantes.put(new Integer(Integer.parseInt(tempEstudiantes[0])), new Integer(Integer.parseInt(tempEstudiantes[1])));
+					estudiantesDiscapacitados.add(new Integer (Integer.parseInt(tempEstudiantes[0])));
 				}
 				if (scProgramacion.hasNext()) {
 					tempProgramacion = scProgramacion.next().split(",");
 					if (tempProgramacion.length == 7) {
-					this.programacion.put(tempProgramacion[0], new Programacion(tempProgramacion[0],
-							Integer.parseInt(tempProgramacion[1]), tempProgramacion[2], tempProgramacion[3],
-							tempProgramacion[4], tempProgramacion[5], Integer.parseInt(tempProgramacion[6])));
+						this.programacion.put(tempProgramacion[0]+"-"+tempProgramacion[1], new Programacion(tempProgramacion[0],
+						Integer.parseInt(tempProgramacion[1]), tempProgramacion[2], tempProgramacion[3],
+						tempProgramacion[4], tempProgramacion[5], tempProgramacion[6]));
+						idProgramacion.add(tempProgramacion[0]+"-"+tempProgramacion[1]);
 					}
 				}
 				if (scAulas.hasNext()) {
 
 					tempAulas = scAulas.next().split(",");
 					if (tempAulas.length==4){
-						this.aulas.put(tempAulas[0]+"-"+tempAulas[1], new
+						this.aulas.put(tempAulas[0], new
 						Aulas( tempAulas[0],
 						tempAulas[1],tempAulas[2],Integer.parseInt(tempAulas[3])));
+						idAulas.add(tempAulas[0]);
 					}
 				}
 				if (scMaterias.hasNext()) {
@@ -86,7 +93,17 @@ public class MapaUniversidad {
 			System.err.println("Archivo no encontrado");
 		}
 	}
+	public void llenarAulas(){
+		for (String i: idProgramacion){
+			if ((programacion.get(i).getIdAula().equals("00000"))){
+					aulas.get(programacion.get(i).getIdAula()).agregarClase(programacion.get(i).getDia(),
+					programacion.get(i).getHoraInicio(),programacion.get(i).gethoraFin(),
+					programacion.get(i).getIdAula());
+			}
+		}
 
+
+	}
 
 
 
