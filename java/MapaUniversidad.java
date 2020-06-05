@@ -81,6 +81,7 @@ public class MapaUniversidad {
 					temp,tempAulas[tempAulas.length-2],Integer.parseInt(tempAulas[tempAulas.length-1])));
 					idAulas.push(tempAulas[0]);
 				  }
+					temp="";
 				}
 				if (scMaterias.hasNext()) {
 					tempMaterias= scMaterias.next().split(",");
@@ -99,18 +100,19 @@ public class MapaUniversidad {
 	public void llenarAulas(){
 		System.out.println("aulas "+aulas.size());
 		System.out.println("programacion "+programacion.size());
-		for (String i: idAulas){
+		for (String i: idProgramacion){
 			//String dia, String horaInicio, String horaFinal, String aula
-			/*if (!(programacion.get(i).getIdAula().equals("00000"))){
-				//aulas.get(programacion.get(i).getIdAula()).agregarClase(
-				//	programacion.get(i).getDia(),
-				//	programacion.get(i).getHoraInicio(),
-				//	programacion.get(i).gethoraFin(),
-				//	programacion.get(i).getIdAula() );
-				aulas.get(programacion.get(i).getIdAula()).to_string();
-			}*/
-			System.out.println(i);
-			System.out.println(aulas.get(i).to_string());
+
+			if (!(programacion.get(i).getIdAula().equals("00000"))){
+				if (aulas.get(programacion.get(i).getIdAula())!=null){}
+				aulas.get(programacion.get(i).getIdAula()).agregarClase(
+					programacion.get(i).getDia(),
+					programacion.get(i).getHoraInicio(),
+					programacion.get(i).gethoraFin(),
+					programacion.get(i).getIdAula() );
+
+			}
+
 		}
 	}
 

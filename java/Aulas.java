@@ -27,15 +27,17 @@ public class Aulas {
 		if (dia.equalsIgnoreCase("sábado"))d=5;
 
 		int horaIni = Integer.parseInt(horaInicio.replace(":",""));
-		horaIni = (horaIni-6000)/1000;
+		horaIni = (horaIni-600)/1000;
 		if (horaIni%1000!=0) {
 			horaIni++;
 		}
 		int horaFin = Integer.parseInt(horaFinal.replace(":",""));
-		horaFin =(horaFin-6000)/1000;
+		horaFin =(horaFin-600)/1000;
 		if (horaFin%1000!=0) {
 			horaFin++;
 		}
+		System.out.println("horaInicio "+horaIni+" hora Original"+horaInicio);
+		System.out.println("horaFinal"+horaFin+" hora final"+horaFinal);
 		for (int i = horaIni;i<horaFin;i++){
 			horario [d][i] = 1;
 			horarioAula [d][i] = aula;
