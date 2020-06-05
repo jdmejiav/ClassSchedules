@@ -1,10 +1,8 @@
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Stack;
-
+import java.util.ArrayList;
 
 
 public class MapaUniversidad {
@@ -14,21 +12,23 @@ public class MapaUniversidad {
 
 	// codigo_estudiante, discapacidad
 	private final HashMap<Integer, Integer> estudiantes = new HashMap<Integer,Integer>();
-	private final Stack <Integer> estudiantesDiscapacitados = new Stack <Integer>();
+	private final ArrayList <Integer> estudiantesDiscapacitados = new ArrayList <Integer>();
 
 	//clave= codigoMateria-numeroGrupo
 	//valor= Programacion
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
-	private final Stack<String> idProgramacion = new Stack<String>();
+	private final ArrayList<String> idProgramacion = new ArrayList<String>();
 
 	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
-	private final Stack <String> idAulas= new Stack<String>();
+	private final ArrayList <String> idAulas= new ArrayList<String>();
 
 	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
+	private final ArrayList<String> idMaterias = new ArrayList<String>();
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
 		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
 		llenarAulas();
+		asinarDiscapacitados();
 	}
 
 	public int[][] getMapa() {
@@ -49,7 +49,6 @@ public class MapaUniversidad {
 			String[] tempAulas;
 			String[] tempMaterias;
 			String temp ="";
-			int ejecucion=0;
 			while (scMapa.hasNext() || scEstudiantes.hasNext() || scProgramacion.hasNext()
 					|| scAulas.hasNext() || scMaterias.hasNext()) {
 				if (scMapa.hasNext()) {
@@ -60,7 +59,7 @@ public class MapaUniversidad {
 				if (scEstudiantes.hasNext()) {
 					tempEstudiantes = scEstudiantes.next().split(",");
 					this.estudiantes.put(new Integer(Integer.parseInt(tempEstudiantes[0])), new Integer(Integer.parseInt(tempEstudiantes[1])));
-					estudiantesDiscapacitados.push(new Integer (Integer.parseInt(tempEstudiantes[0])));
+					estudiantesDiscapacitados.add(new Integer (Integer.parseInt(tempEstudiantes[0])));
 				}
 				if (scProgramacion.hasNext()) {
 					tempProgramacion = scProgramacion.next().split(",");
@@ -68,7 +67,7 @@ public class MapaUniversidad {
 						this.programacion.put(tempProgramacion[0]+"-"+tempProgramacion[1], new Programacion(tempProgramacion[0],
 						Integer.parseInt(tempProgramacion[1]), tempProgramacion[2], tempProgramacion[3],
 						tempProgramacion[4], tempProgramacion[5], tempProgramacion[6]));
-						idProgramacion.push(tempProgramacion[0]+"-"+tempProgramacion[1]);
+						idProgramacion.add(tempProgramacion[0]+"-"+tempProgramacion[1]);
 					}
 				}
 				if (scAulas.hasNext()) {
@@ -79,7 +78,7 @@ public class MapaUniversidad {
 					}
 					this.aulas.put(tempAulas[0], new Aulas( tempAulas[0],
 					temp,tempAulas[tempAulas.length-2],Integer.parseInt(tempAulas[tempAulas.length-1])));
-					idAulas.push(tempAulas[0]);
+					idAulas.add(tempAulas[0]);
 				  }
 					temp="";
 				}
@@ -88,35 +87,35 @@ public class MapaUniversidad {
 					if (tempMaterias.length==3){
 						this.materias.put(tempMaterias[0],new
 						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
+						idMaterias.add(tempMaterias[0]);
 					}
 				}
-				ejecucion++;
 			}
-			System.out.println(ejecucion);
 		}catch (FileNotFoundException fnfe){
 			System.err.println("Archivo no encontrado");
 		}
 	}
 	public void llenarAulas(){
-		System.out.println("aulas "+aulas.size());
-		System.out.println("programacion "+programacion.size());
+
 		for (String i: idProgramacion){
 			//String dia, String horaInicio, String horaFinal, String aula
-
 			if (!(programacion.get(i).getIdAula().equals("00000"))){
-				if (aulas.get(programacion.get(i).getIdAula())!=null){}
+				if (aulas.get(programacion.get(i).getIdAula())!=null){
 				aulas.get(programacion.get(i).getIdAula()).agregarClase(
 					programacion.get(i).getDia(),
 					programacion.get(i).getHoraInicio(),
 					programacion.get(i).gethoraFin(),
 					programacion.get(i).getIdAula() );
-
+				}
 			}
-
 		}
 	}
 
+	public void asinarDiscapacitados(){
+		for (Integer i : estudiantesDiscapacitados) {
+			
+		}
 
-
+	}
 
 }

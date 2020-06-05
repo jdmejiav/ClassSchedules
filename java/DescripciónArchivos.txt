@@ -1,0 +1,39 @@
+Descripción de los archivos:
+
+EDA2_Practica.pdf: Enunciado de la práctica.
+
+mat20192.csv: Archivo en formato csv (valores separados por comas)  que contiene la información de la matricula. Son tres campos:
+
+    Código del estudiante
+    Código de la materia
+    Número del grupo
+
+pa20192.csv: Archivo en formato csv (valores separados por comas) que contiene la programación académica. Tiene siete (7) campos.
+
+    Código de la materia
+    Número del grupo
+    Identificación del profesor asignado. El valor de 1 indica que no tiene profesor asignado.
+    Dia de la clase
+    Hora de inicio
+    Hora de fin
+    Identificación del aula. Un código de aula 00000 quiere decir que el grupo no tiene asignada ningún aula.
+
+aulas.csv: Archivo en formato csv (valores separados por comas) que contiene la información de las aulas de clase. Son 4 campos.
+
+    Identificación del aula
+    Tipo de aula
+    Capacidad.
+    Acceso (1: Tiene acceso para discapacitados, 0: No tiene acceso para discapacitados)
+
+DistanciasBloques.csv: Archivo que contiene la distancia entre los diferentes bloques de la universidad. Tiene 3 campos:
+
+    Bloque inicial
+    Bloque final
+    Distancia
+
+La distancia está expresada en metros y es simétrica, i.e. la distancia del bloque A al bloque B es la misma que la del bloque B al bloque A.
+
+estudiantes.csv: Archivo que contiene la información de discapacidad de los estudiantes. Tiene 2 campos:
+
+    Código del estudiante
+    Discapacidad (0: No tiene discapacidad, 1: Tiene discapacidad)
