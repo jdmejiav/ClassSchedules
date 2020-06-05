@@ -123,8 +123,11 @@ public class MapaUniversidad {
 	}
 
 	public void asinarDiscapacitados(){
-		for (Integer i : estudiantesDiscapacitados) {
-
+		Programacion temp=new Programacion("",0,"","","","","");
+		for (Integer i: estudiantesDiscapacitados) {
+			if (materias.get(String.valueOf(estudiantes.get(i)))!=null)
+			temp = programacion.get(materias.get(String.valueOf(i)).getCodigoMateriaGrupo());
+			System.out.println(temp.to_string());
 		}
 
 	}

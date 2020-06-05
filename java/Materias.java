@@ -13,4 +13,7 @@ public class Materias {
 		this.numeroGrupo = numeroGrupo;
 	}
 
+	public String getCodigoMateriaGrupo(){
+		return this.codigoMateria+"-"+String.valueOf(numeroGrupo);
+	}
 }
