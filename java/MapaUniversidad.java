@@ -25,6 +25,9 @@ public class MapaUniversidad {
 	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
 	private final ArrayList<String> idMaterias = new ArrayList<String>();
 
+	private final HashMap <String,ArrayList> estudiantesClases = new HashMap<String,ArrayList>();
+	private final ArrayList <String> idEsdudiantesClases = new ArrayList<String>();
+
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
 		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
 		llenarAulas();
@@ -113,7 +116,7 @@ public class MapaUniversidad {
 
 	public void asinarDiscapacitados(){
 		for (Integer i : estudiantesDiscapacitados) {
-			
+
 		}
 
 	}
