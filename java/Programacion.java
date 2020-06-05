@@ -42,7 +42,11 @@ public class Programacion{
 			return this.idAula;
 	}
 
-	public String to_string(){
+	public String getCodigoMateriaGrupo(){
+		return this.codigoMateria+"-"+this.numeroGrupo;
+	}
+
+	public String toString(){
 		return "codigoMateria "+codigoMateria+"\nnumeroGrupo "+ numeroGrupo + "\nidProfesor "+idProfesor+ "\ndia "+dia
 		+"\nhoraInicio "+horaInicio+"\nhoraFin "+horaFin+"\nidAula "+idAula;
 

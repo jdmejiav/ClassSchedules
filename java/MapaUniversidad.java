@@ -22,7 +22,7 @@ public class MapaUniversidad {
 	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
 	private final ArrayList <String> idAulas= new ArrayList<String>();
 
-	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
+	private final HashMap<String, ArrayList<Materias>> materias = new HashMap <String,ArrayList<Materias>>();
 	private final ArrayList<String> idMaterias = new ArrayList<String>();
 
 	private final HashMap <String,ArrayList<String>> estudiantesClases = new HashMap<String,ArrayList<String>>();
@@ -88,9 +88,16 @@ public class MapaUniversidad {
 				if (scMaterias.hasNext()) {
 					tempMaterias= scMaterias.next().split(",");
 					if (tempMaterias.length==3){
-						this.materias.put(tempMaterias[0],new
-						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
-						idMaterias.add(tempMaterias[0]);
+
+						if (this.materias.get(tempMaterias[0])!=null){
+							this.materias.get(tempMaterias[0]).add(new Materias(tempMaterias[0],tempMaterias[1],
+							Integer.parseInt(tempMaterias[2])));
+						}else {
+							this.materias.put(tempMaterias[0],new ArrayList<Materias>());
+							this.materias.get(tempMaterias[0]).add(new Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
+							idMaterias.add(tempMaterias[0]);
+						}
+
 
 						if (estudiantesClases.get(tempMaterias[1]+"-"+tempMaterias[2])!=null){
 							estudiantesClases.get(tempMaterias[1]+"-"+tempMaterias[2]).add(tempMaterias[0]);
@@ -116,20 +123,50 @@ public class MapaUniversidad {
 					programacion.get(i).getDia(),
 					programacion.get(i).getHoraInicio(),
 					programacion.get(i).gethoraFin(),
-					programacion.get(i).getIdAula() );
+					programacion.get(i).getCodigoMateriaGrupo());
 				}
 			}
 		}
 	}
 
 	public void asinarDiscapacitados(){
+		System.out.println("materias "+materias.size());
+		System.out.println("estudiantes "+estudiantes.size());
+		System.out.println("programacion "+programacion.size());
+		System.out.println("aulas "+aulas.size());
+
+		int idxAula=0;
 		Programacion temp=new Programacion("",0,"","","","","");
 		for (Integer i: estudiantesDiscapacitados) {
-			if (materias.get(String.valueOf(estudiantes.get(i)))!=null)
-			temp = programacion.get(materias.get(String.valueOf(i)).getCodigoMateriaGrupo());
-			System.out.println(temp.to_string());
+			if (materias.get(String.valueOf(i))!=null) {
+				for (Materias k: materias.get(String.valueOf(i))){
+					if (programacion.get(k.getCodigoMateriaGrupo())!=null){
+						temp = programacion.get(k.getCodigoMateriaGrupo());
+
+						while (!(aulas.get(idAulas.get(idxAula))
+						.checkearHora(temp.getDia(),temp.getHoraInicio(), temp.gethoraFin())) &&
+						 aulas.get(idAulas.get(idxAula)).getCapacidad()>= materias.get(i+"").size() &&
+						 aulas.get(idAulas.get(idxAula)).getAcceso()==1) {
+							idxAula++;
+						}
+						this.aulas.get(idAulas.get(idxAula)).agregarClase(
+							temp.getDia(),
+							temp.getHoraInicio(),
+							temp.gethoraFin(),
+							temp.getCodigoMateriaGrupo());
+							idxAula=0;
+					}
+				}
+			}
+
+		}
+
+		for (String i: idAulas){
+			aulas.get(i).imprimirHorario();
+			System.out.println("\n");
 		}
 
 	}
+
 
 }

@@ -16,4 +16,9 @@ public class Materias {
 	public String getCodigoMateriaGrupo(){
 		return this.codigoMateria+"-"+String.valueOf(numeroGrupo);
 	}
+
+	public String toString (){
+		return "codigoEstudiante "+codigoEstudiante+" CodigoMateria "+codigoMateria+" numeroGrupo "+String.valueOf(numeroGrupo);
+	}
+
 }

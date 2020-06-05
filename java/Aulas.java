@@ -6,8 +6,8 @@ public class Aulas {
 	private final int acceso;
 
 
-	private final int [][] horario = new int [6][32];
-	private final String [][] horarioAula = new String [6][32];
+	private final int [][] horario = new int [7][32];
+	private final String [][] horarioAula = new String [7][32];
 
 	public Aulas(String idAula, String tipoAula, String capacidad, int acceso) {
 		this.idAula = idAula;
@@ -18,13 +18,14 @@ public class Aulas {
 
 
 	public void agregarClase (String dia, String horaInicio, String horaFinal, String aula) {
-		int d = 7;
+		int d = 8;
 		if (dia.equalsIgnoreCase("lunes"))d=0;
 		if (dia.equalsIgnoreCase("martes"))d=1;
 		if (dia.equalsIgnoreCase("miércoles"))d=2;
 		if (dia.equalsIgnoreCase("jueves"))d=3;
 		if (dia.equalsIgnoreCase("viernes"))d=4;
 		if (dia.equalsIgnoreCase("sábado"))d=5;
+		if (dia.equalsIgnoreCase("domingo"))d=6;
 
 		int horaIni = Integer.parseInt(horaInicio.replace(":",""));
 		horaIni = ((horaIni-600)/100)*2;
@@ -42,19 +43,21 @@ public class Aulas {
 			horarioAula [d][i] = aula;
 		}
 	}
-	public String to_string(){
+	public String toString(){
 		return "idAula "+idAula+"\ntipoAula "+tipoAula+"\ncapacidad "+capacidad+
 		"\nacceso "+acceso;
 	}
 
 	public boolean checkearHora (String dia,String horaInicio,String horaFinal){
-		int d = 7;
+		int d = 8;
 		if (dia.equalsIgnoreCase("lunes"))d=0;
 		if (dia.equalsIgnoreCase("martes"))d=1;
 		if (dia.equalsIgnoreCase("miércoles"))d=2;
 		if (dia.equalsIgnoreCase("jueves"))d=3;
 		if (dia.equalsIgnoreCase("viernes"))d=4;
 		if (dia.equalsIgnoreCase("sábado"))d=5;
+		if (dia.equalsIgnoreCase("domingo"))d=6;
+
 
 		int horaIni = Integer.parseInt(horaInicio.replace(":",""));
 		horaIni = ((horaIni-600)/100)*2;
@@ -67,10 +70,37 @@ public class Aulas {
 			horaFin++;
 		}
 		for (int i = horaIni;i<horaFin;i++){
-			if (horario [d][i] ==1){
+			if (horario [d][i] == 1){
 				return false;
 			}
 		}
 		return true;
 	}
+
+	public int getCapacidad(){
+		if (this.capacidad.equals("N/A")){
+			return 1000000;
+		}else {
+			return Integer.parseInt(this.capacidad);
+		}
+	}
+
+	public int getAcceso(){
+		return this.acceso;
+	}
+
+	public void imprimirHorario(){
+		System.out.println();
+		System.out.println(this.idAula+": \n");
+		System.out.println("lunes\t\tMartes\t\t\tMiércoles\t\t\tJueves\t\t\tViernes\t\t\tSábado\t\t\tDomingo");
+		for (int i = 0;i<horarioAula[0].length;i++){
+			for (int k =0;k<horarioAula.length;k++){
+				System.out.print(horarioAula[k][i]+"\t\t\t");
+
+			}
+			System.out.println();
+		}
+
+	}
+
 }
