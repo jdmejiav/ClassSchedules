@@ -7,7 +7,7 @@ public class Aulas {
 
 
 	private final int [][] horario = new int [6][30];
-	private final String [][] horarioAula = new String [60][60];
+	private final String [][] horarioAula = new String [6][60];
 
 	public Aulas(String idAula, String tipoAula, String capacidad, int acceso) {
 		this.idAula = idAula;
@@ -40,8 +40,10 @@ public class Aulas {
 			horario [d][i] = 1;
 			horarioAula [d][i] = aula;
 		}
-
-		
+	}
+	public String to_string(){
+		return "idAula "+idAula+"\ntipoAula "+tipoAula+"\ncapacidad "+capacidad+
+		"\nacceso "+acceso;
 
 	}
 }

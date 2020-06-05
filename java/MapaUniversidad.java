@@ -3,7 +3,9 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.Stack;
+
+
 
 public class MapaUniversidad {
 
@@ -12,15 +14,15 @@ public class MapaUniversidad {
 
 	// codigo_estudiante, discapacidad
 	private final HashMap<Integer, Integer> estudiantes = new HashMap<Integer,Integer>();
-	private final ArrayList <Integer> estudiantesDiscapacitados = new ArrayList <Integer>();
+	private final Stack <Integer> estudiantesDiscapacitados = new Stack <Integer>();
 
 	//clave= codigoMateria-numeroGrupo
 	//valor= Programacion
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
-	private final ArrayList<String> idProgramacion = new ArrayList<String>();
+	private final Stack<String> idProgramacion = new Stack<String>();
 
 	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
-	private final ArrayList <String> idAulas= new ArrayList<String>();
+	private final Stack <String> idAulas= new Stack<String>();
 
 	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
 
@@ -46,7 +48,7 @@ public class MapaUniversidad {
 			String[] tempProgramacion;
 			String[] tempAulas;
 			String[] tempMaterias;
-			String[] temp;
+			String temp ="";
 			int ejecucion=0;
 			while (scMapa.hasNext() || scEstudiantes.hasNext() || scProgramacion.hasNext()
 					|| scAulas.hasNext() || scMaterias.hasNext()) {
@@ -58,7 +60,7 @@ public class MapaUniversidad {
 				if (scEstudiantes.hasNext()) {
 					tempEstudiantes = scEstudiantes.next().split(",");
 					this.estudiantes.put(new Integer(Integer.parseInt(tempEstudiantes[0])), new Integer(Integer.parseInt(tempEstudiantes[1])));
-					estudiantesDiscapacitados.add(new Integer (Integer.parseInt(tempEstudiantes[0])));
+					estudiantesDiscapacitados.push(new Integer (Integer.parseInt(tempEstudiantes[0])));
 				}
 				if (scProgramacion.hasNext()) {
 					tempProgramacion = scProgramacion.next().split(",");
@@ -66,18 +68,19 @@ public class MapaUniversidad {
 						this.programacion.put(tempProgramacion[0]+"-"+tempProgramacion[1], new Programacion(tempProgramacion[0],
 						Integer.parseInt(tempProgramacion[1]), tempProgramacion[2], tempProgramacion[3],
 						tempProgramacion[4], tempProgramacion[5], tempProgramacion[6]));
-						idProgramacion.add(tempProgramacion[0]+"-"+tempProgramacion[1]);
+						idProgramacion.push(tempProgramacion[0]+"-"+tempProgramacion[1]);
 					}
 				}
 				if (scAulas.hasNext()) {
-
-					tempAulas = scAulas.next().split(",");
-					if (tempAulas.length==4){
-						this.aulas.put(tempAulas[0], new
-						Aulas( tempAulas[0],
-						tempAulas[1],tempAulas[2],Integer.parseInt(tempAulas[3])));
-						idAulas.add(tempAulas[0]);
+					tempAulas = scAulas.nextLine().split(",");
+					if (tempAulas.length>3){
+					for (int i=1;i<tempAulas.length-2;i++){
+						temp+=tempAulas[i];
 					}
+					this.aulas.put(tempAulas[0], new Aulas( tempAulas[0],
+					temp,tempAulas[tempAulas.length-2],Integer.parseInt(tempAulas[tempAulas.length-1])));
+					idAulas.push(tempAulas[0]);
+				  }
 				}
 				if (scMaterias.hasNext()) {
 					tempMaterias= scMaterias.next().split(",");
@@ -94,16 +97,23 @@ public class MapaUniversidad {
 		}
 	}
 	public void llenarAulas(){
-		for (String i: idProgramacion){
-			if ((programacion.get(i).getIdAula().equals("00000"))){
-					aulas.get(programacion.get(i).getIdAula()).agregarClase(programacion.get(i).getDia(),
-					programacion.get(i).getHoraInicio(),programacion.get(i).gethoraFin(),
-					programacion.get(i).getIdAula());
-			}
+		System.out.println("aulas "+aulas.size());
+		System.out.println("programacion "+programacion.size());
+		for (String i: idAulas){
+			//String dia, String horaInicio, String horaFinal, String aula
+			/*if (!(programacion.get(i).getIdAula().equals("00000"))){
+				//aulas.get(programacion.get(i).getIdAula()).agregarClase(
+				//	programacion.get(i).getDia(),
+				//	programacion.get(i).getHoraInicio(),
+				//	programacion.get(i).gethoraFin(),
+				//	programacion.get(i).getIdAula() );
+				aulas.get(programacion.get(i).getIdAula()).to_string();
+			}*/
+			System.out.println(i);
+			System.out.println(aulas.get(i).to_string());
 		}
-
-
 	}
+
 
 
 
