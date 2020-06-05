@@ -25,7 +25,7 @@ public class MapaUniversidad {
 	private final HashMap<String, Materias> materias = new HashMap <String,Materias>();
 	private final ArrayList<String> idMaterias = new ArrayList<String>();
 
-	private final HashMap <String,ArrayList> estudiantesClases = new HashMap<String,ArrayList>();
+	private final HashMap <String,ArrayList<String>> estudiantesClases = new HashMap<String,ArrayList<String>>();
 	private final ArrayList <String> idEsdudiantesClases = new ArrayList<String>();
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
@@ -91,6 +91,14 @@ public class MapaUniversidad {
 						this.materias.put(tempMaterias[0],new
 						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
 						idMaterias.add(tempMaterias[0]);
+
+						if (estudiantesClases.get(tempMaterias[1]+"-"+tempMaterias[2])!=null){
+							estudiantesClases.get(tempMaterias[1]+"-"+tempMaterias[2]).add(tempMaterias[0]);
+						}else {
+							estudiantesClases.put (tempMaterias[1]+"-"+tempMaterias[2], new ArrayList<String>());
+							estudiantesClases.get(tempMaterias[1]+"-"+tempMaterias[2]).add(tempMaterias[0]);
+							idEsdudiantesClases.add(tempMaterias[1]+"-"+tempMaterias[2]);
+						}
 					}
 				}
 			}

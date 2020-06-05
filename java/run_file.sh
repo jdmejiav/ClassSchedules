@@ -1,5 +1,5 @@
 #!/bin/bash
 
 javac *.java;
-java Main;
+java  Main;
 rm *.class;
