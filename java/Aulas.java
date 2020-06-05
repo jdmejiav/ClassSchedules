@@ -6,8 +6,8 @@ public class Aulas {
 	private final int acceso;
 
 
-	private final int [][] horario = new int [6][30];
-	private final String [][] horarioAula = new String [6][60];
+	private final int [][] horario = new int [6][40];
+	private final String [][] horarioAula = new String [6][40];
 
 	public Aulas(String idAula, String tipoAula, String capacidad, int acceso) {
 		this.idAula = idAula;
@@ -27,13 +27,13 @@ public class Aulas {
 		if (dia.equalsIgnoreCase("sábado"))d=5;
 
 		int horaIni = Integer.parseInt(horaInicio.replace(":",""));
-		horaIni = (horaIni-600)/1000;
-		if (horaIni%1000!=0) {
+		horaIni = ((horaIni-600)/100)*2;
+		if ((Integer.parseInt(horaInicio.replace(":",""))%100)!=0) {
 			horaIni++;
 		}
 		int horaFin = Integer.parseInt(horaFinal.replace(":",""));
-		horaFin =(horaFin-600)/1000;
-		if (horaFin%1000!=0) {
+		horaFin =((horaFin-600)/100)*2;
+		if (Integer.parseInt(horaFinal.replace(":",""))%100!=0) {
 			horaFin++;
 		}
 		System.out.println("horaInicio "+horaIni+" hora Original"+horaInicio);
