@@ -45,7 +45,7 @@ public class MapaUniversidad {
 			String[] temp;
 			int ejecucion=0;
 			while (scMapa.hasNext() || scEstudiantes.hasNext() || scProgramacion.hasNext()
-					|| scAulas.hasNext()) {
+					|| scAulas.hasNext() || scMaterias.hasNext()) {
 				if (scMapa.hasNext()) {
 					tempMapa = scMapa.next().split(",");
 					this.mapa[Integer.parseInt(tempMapa[0])][Integer.parseInt(tempMapa[1])] = Integer.parseInt(tempMapa[2]);
@@ -73,10 +73,10 @@ public class MapaUniversidad {
 					}
 				}
 				if (scMaterias.hasNext()) {
-					tempMaterias= temp.split(",");
+					tempMaterias= scMaterias.next().split(",");
 					if (tempMaterias.length==3){
 						this.materias.put(tempMaterias[0],new
-						Materias(tempMaterias[0],tempMaterias[1] ,Integer.parseInt(tempMaterias[tempMaterias.length])));
+						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
 					}
 				}
 				ejecucion++;
