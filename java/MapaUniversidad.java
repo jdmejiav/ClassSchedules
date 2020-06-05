@@ -12,7 +12,7 @@ public class MapaUniversidad {
 
 	// codigo_estudiante, discapacidad
 	private final HashMap<Integer, Integer> estudiantes = new HashMap<Integer,Integer>();
-	private final ArrayList <Integer> estudiantesDiscapacitado = new ArrayList <Integer>();
+	private final ArrayList <Integer> estudiantesDiscapacitados = new ArrayList <Integer>();
 
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
 
@@ -42,6 +42,8 @@ public class MapaUniversidad {
 			String[] tempProgramacion;
 			String[] tempAulas;
 			String[] tempMaterias;
+			String[] temp;
+			int ejecucion=0;
 			while (scMapa.hasNext() || scEstudiantes.hasNext() || scProgramacion.hasNext()
 					|| scAulas.hasNext()) {
 				if (scMapa.hasNext()) {
@@ -71,14 +73,15 @@ public class MapaUniversidad {
 					}
 				}
 				if (scMaterias.hasNext()) {
-					tempMaterias=scMaterias.next().split(",");
+					tempMaterias= temp.split(",");
 					if (tempMaterias.length==3){
 						this.materias.put(tempMaterias[0],new
-						Materias(tempMaterias[0],tempMaterias[1],Integer.parseInt(tempMaterias[2])));
+						Materias(tempMaterias[0],tempMaterias[1] ,Integer.parseInt(tempMaterias[tempMaterias.length])));
 					}
 				}
-
+				ejecucion++;
 			}
+			System.out.println(ejecucion);
 		}catch (FileNotFoundException fnfe){
 			System.err.println("Archivo no encontrado");
 		}
