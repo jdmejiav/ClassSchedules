@@ -80,7 +80,7 @@ public class Aulas {
 
 	public int getCapacidad(){
 		if (this.capacidad.equals("N/A")){
-			return 1000000;
+			return 20;
 		}else {
 			return Integer.parseInt(this.capacidad);
 		}
