@@ -1,9 +1,12 @@
+
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MapaUniversidad {
 
@@ -27,6 +30,8 @@ public class MapaUniversidad {
 
 	private final HashMap <String,ArrayList<String>> estudiantesClases = new HashMap<String,ArrayList<String>>();
 	private final ArrayList <String> idEsdudiantesClases = new ArrayList<String>();
+
+	private final HashMap <String,Aulas> clasesAsignadas = new HashMap<String,Aulas>();
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
 		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
@@ -63,6 +68,7 @@ public class MapaUniversidad {
 					tempEstudiantes = scEstudiantes.next().split(",");
 					this.estudiantes.put(new Integer(Integer.parseInt(tempEstudiantes[0])), new Integer(Integer.parseInt(tempEstudiantes[1])));
 					estudiantesDiscapacitados.add(new Integer (Integer.parseInt(tempEstudiantes[0])));
+
 				}
 				if (scProgramacion.hasNext()) {
 					tempProgramacion = scProgramacion.next().split(",");
@@ -124,6 +130,7 @@ public class MapaUniversidad {
 					programacion.get(i).getHoraInicio(),
 					programacion.get(i).gethoraFin(),
 					programacion.get(i).getCodigoMateriaGrupo());
+				clasesAsignadas.put(i,aulas.get(programacion.get(i).getIdAula()));
 				}
 			}
 		}
@@ -134,7 +141,7 @@ public class MapaUniversidad {
 		System.out.println("estudiantes "+estudiantes.size());
 		System.out.println("programacion "+programacion.size());
 		System.out.println("aulas "+aulas.size());
-
+		int estudiantesAsignados=0;
 		int idxAula=0;
 		Programacion temp=new Programacion("",0,"","","","","");
 		for (Integer i: estudiantesDiscapacitados) {
@@ -146,26 +153,118 @@ public class MapaUniversidad {
 						while (!(aulas.get(idAulas.get(idxAula))
 						.checkearHora(temp.getDia(),temp.getHoraInicio(), temp.gethoraFin())) &&
 						 aulas.get(idAulas.get(idxAula)).getCapacidad()>= materias.get(i+"").size() &&
-						 aulas.get(idAulas.get(idxAula)).getAcceso()==1) {
+						 ((aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) || estudiantes.get(i)==0)) {
+
 							idxAula++;
 						}
+
+						//if (clasesAsignadas.get(temp.getCodigoMateriaGrupo())==null) {
+							this.aulas.get(idAulas.get(idxAula)).agregarClase(
+								temp.getDia(),
+								temp.getHoraInicio(),
+								temp.gethoraFin(),
+								temp.getCodigoMateriaGrupo());
+								clasesAsignadas.put(temp.getCodigoMateriaGrupo(),aulas.get(idAulas.get(idxAula)));
+								estudiantesAsignados++;
+						//}
+						idxAula=0;
+					}else {
+						int tempHoraInicio= ((int) ((Math.random()*20)+1))+7;
+						int tempHoraFinal = ((int) (Math.random()*3)+2);
+						int tempDia = ((int)(Math.random()*6));
+						String strDia="";
+
+						switch (tempDia){
+							case '0':
+								strDia="lunes";
+								break;
+							case '1':
+								strDia="martes";
+								break;
+							case '2':
+								strDia="miércoles";
+								break;
+							case '3':
+								strDia="jueves";
+								break;
+							case '4':
+								strDia="viernes";
+								break;
+							case '5':
+								strDia="sábado";
+								break;
+							default:
+								strDia="domingo";
+								break;
+						}
+
+						String strHoraInicio = String.valueOf((int)(tempHoraInicio))+":"+"00";
+						String strHoraFinal = String.valueOf((int)(tempHoraFinal))+":"+"00";
+
+
+
+						while (!(aulas.get(idAulas.get(idxAula))
+						.checkearHora(strDia,strHoraInicio, strHoraFinal)) &&
+						 aulas.get(idAulas.get(idxAula)).getCapacidad()>= materias.get(i+"").size() &&
+						 ((aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) ||estudiantes.get(i)==0)) {
+							idxAula++;
+						}
+
 						this.aulas.get(idAulas.get(idxAula)).agregarClase(
-							temp.getDia(),
-							temp.getHoraInicio(),
-							temp.gethoraFin(),
-							temp.getCodigoMateriaGrupo());
-							idxAula=0;
+							strDia,
+							strHoraInicio,
+							strHoraFinal,
+							k.getCodigoMateriaGrupo());
+							clasesAsignadas.put(k.getCodigoMateriaGrupo(),aulas.get(idAulas.get(idxAula)));
+							estudiantesAsignados++;
+
 					}
 				}
 			}
 
 		}
 
+		StringBuilder builderFile = new StringBuilder();
 		for (String i: idAulas){
-			aulas.get(i).imprimirHorario();
+			builderFile.append(aulas.get(i).horarioToFile());
 			System.out.println("\n");
 		}
 
+		try {
+			File salida = new File ("salidaHorarioAulas.out");
+			if (!salida.exists())salida.createNewFile();
+			BufferedWriter bf = new BufferedWriter(new FileWriter("salidaHorarioAulas.out"));
+			bf.write(builderFile.toString());
+			bf.close();
+		}catch (IOException e){
+				e.printStackTrace();
+		}
+
+		/*
+		System.out.println("Estudiantes asignados: "+estudiantesAsignados);
+		int iguales=0;
+
+		int noexiste=0;
+
+
+		for (String k:idMaterias){
+			for (Materias j: materias.get(k)){
+				if (programacion.get(j.getCodigoMateriaGrupo())!=null){
+
+					if (j.getCodigoMateriaGrupo().equals(programacion.get(j.getCodigoMateriaGrupo()).getCodigoMateriaGrupo())) {
+							iguales++;
+
+					}
+				}else {
+					noexiste++;
+				}
+			}
+
+		}
+
+		System.out.println("no existen = "+noexiste);
+		System.out.println("iguales = "+iguales);
+		*/
 	}
 
 
