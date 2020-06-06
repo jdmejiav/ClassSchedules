@@ -1,3 +1,4 @@
+
 public class Aulas {
 
 	private final String idAula;
@@ -89,19 +90,24 @@ public class Aulas {
 	public int getAcceso(){
 		return this.acceso;
 	}
+
+
 	public StringBuilder horarioToFile (){
 		StringBuilder retorno= new StringBuilder("\n");
 		retorno.append("\n"+this.idAula+": \n\n");
-		retorno.append("lunes\t\t\t\tMartes\t\t\t\tMiércoles\t\t\t\tJueves\t\t\t\tViernes\t\t\t\tSábado\t\t\t\tDomingo\n");
+		retorno.append("lunes\t\tMartes\t\tMiércoles\t\tJueves\t\tViernes\t\tSábado\t\tDomingo\n");
 		for (int i = 0;i<horarioAula[0].length;i++){
 			for (int k =0;k<horarioAula.length;k++){
-				retorno.append(horarioAula[k][i]+"\t\t\t\t");
+				retorno.append(horarioAula[k][i]+"\t\t");
 
 			}
 			retorno.append("\n");
 		}
 		return retorno;
 	}
+
+
+
 	public void imprimirHorario(){
 		System.out.println();
 		System.out.println(this.idAula+": \n");

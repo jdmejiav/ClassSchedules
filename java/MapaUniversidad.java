@@ -15,33 +15,55 @@ public class MapaUniversidad {
 
 	// codigo_estudiante, discapacidad
 	private final HashMap<Integer, Integer> estudiantes = new HashMap<Integer,Integer>();
-	private final ArrayList <Integer> estudiantesDiscapacitados = new ArrayList <Integer>();
+
+	//clave del hash Estudiantes
+	private final ArrayList <Integer> idEstudiantes = new ArrayList <Integer>();
 
 	//clave= codigoMateria-numeroGrupo
 	//valor= Programacion
 	private final HashMap<String, Programacion> programacion = new HashMap<String, Programacion>();
+
+	//Arreglo Clave del hash programacion
 	private final ArrayList<String> idProgramacion = new ArrayList<String>();
 
+	//clave idAulas
+	//valor Objeto Aula
 	private final HashMap<String, Aulas> aulas = new HashMap<String, Aulas>();
+	//clave del hashIdAula
 	private final ArrayList <String> idAulas= new ArrayList<String>();
 
+
+	//clave = idEstudiantes
 	private final HashMap<String, ArrayList<Materias>> materias = new HashMap <String,ArrayList<Materias>>();
+	//arreglo con las claves de materias
 	private final ArrayList<String> idMaterias = new ArrayList<String>();
 
+	//Hash que contiene las materias registradas registradas de cada estudiante
+	//clave = Id del estudiantes
+	//valor = Arreglo de idMaterias
 	private final HashMap <String,ArrayList<String>> estudiantesClases = new HashMap<String,ArrayList<String>>();
 	private final ArrayList <String> idEsdudiantesClases = new ArrayList<String>();
 
+	//Hash que contiene las clases que ya han sido asigandas
+	//clave = Codgio clase
+	//valor = objeto Aula
 	private final HashMap <String,Aulas> clasesAsignadas = new HashMap<String,Aulas>();
+
+	//Constructor de la clase MapaUniversidad
 
 	public MapaUniversidad(File mapa, File estudiantes, File programacion, File aulas,File materias) {
 		llenarGrafo(mapa, estudiantes, programacion, aulas,materias);
 		llenarAulas();
-		asinarDiscapacitados();
+		asinarEstudiantes();
+		producirSalida();
 	}
+
 
 	public int[][] getMapa() {
 		return this.mapa;
 	}
+
+	// Metodo para leer los arvhicos y almacenar los datos en sus respectivas variables
 
 	public void llenarGrafo(File mapa, File estudiantes, File programacion, File aulas, File materias) {
 
@@ -57,6 +79,9 @@ public class MapaUniversidad {
 			String[] tempAulas;
 			String[] tempMaterias;
 			String temp ="";
+
+			//ciclo para leer cada archivo
+
 			while (scMapa.hasNext() || scEstudiantes.hasNext() || scProgramacion.hasNext()
 					|| scAulas.hasNext() || scMaterias.hasNext()) {
 				if (scMapa.hasNext()) {
@@ -67,7 +92,7 @@ public class MapaUniversidad {
 				if (scEstudiantes.hasNext()) {
 					tempEstudiantes = scEstudiantes.next().split(",");
 					this.estudiantes.put(new Integer(Integer.parseInt(tempEstudiantes[0])), new Integer(Integer.parseInt(tempEstudiantes[1])));
-					estudiantesDiscapacitados.add(new Integer (Integer.parseInt(tempEstudiantes[0])));
+					idEstudiantes.add(new Integer (Integer.parseInt(tempEstudiantes[0])));
 
 				}
 				if (scProgramacion.hasNext()) {
@@ -119,10 +144,13 @@ public class MapaUniversidad {
 			System.err.println("Archivo no encontrado");
 		}
 	}
+
+	//método para llenar las aulas que ya se encuentran asignadas en el archivo pa2192.csv
+
 	public void llenarAulas(){
 
 		for (String i: idProgramacion){
-			//String dia, String horaInicio, String horaFinal, String aula
+
 			if (!(programacion.get(i).getIdAula().equals("00000"))){
 				if (aulas.get(programacion.get(i).getIdAula())!=null){
 				aulas.get(programacion.get(i).getIdAula()).agregarClase(
@@ -136,30 +164,23 @@ public class MapaUniversidad {
 		}
 	}
 
-	public void asinarDiscapacitados(){
-		//System.out.println("materias "+materias.size());
-		//System.out.println("estudiantes "+estudiantes.size());
-		//System.out.println("programacion "+programacion.size());
-		//System.out.println("aulas "+aulas.size());
+	//Meétodo para Asignarle clase a los estudiantes cuyas clase figuran en el archivo pa20192
+
+	public void asinarEstudiantes(){
+
+
 		int estudiantesAsignados=0;
 		int idxAula=0;
 		Programacion temp=new Programacion("",0,"","","","","");
-		for (Integer i: estudiantesDiscapacitados) {
+		for (Integer i: idEstudiantes) {
 			if (materias.get(String.valueOf(i))!=null) {
 				for (Materias k: materias.get(String.valueOf(i))){
 					if (programacion.get(k.getCodigoMateriaGrupo())!=null){
 						temp = programacion.get(k.getCodigoMateriaGrupo());
 
 						idxAula = calcularIdxAula(idxAula,temp.getDia(),temp.getHoraInicio(),temp.gethoraFin(),i);
-						/*
-						while (!(aulas.get(idAulas.get(idxAula))
-						.checkearHora(temp.getDia(),temp.getHoraInicio(), temp.gethoraFin())) &&
-						 aulas.get(idAulas.get(idxAula)).getCapacidad()>= materias.get(i+"").size() &&
-						 !((aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) || estudiantes.get(i)==0)) {
 
-							idxAula++;
-						}
-						*/
+
 						if (clasesAsignadas.get(temp.getCodigoMateriaGrupo())==null) {
 							this.aulas.get(idAulas.get(idxAula)).agregarClase(
 								temp.getDia(),
@@ -174,27 +195,27 @@ public class MapaUniversidad {
 					}
 					else {
 						int tempHoraInicio= ((int) ((Math.random()*5)))+2;
-						int tempHoraFinal = tempHoraInicio+((int) (Math.random()*10))+1;
+						int tempHoraFinal = tempHoraInicio+((int) (Math.random()*4))+1;
 						int tempDia = ((int)(Math.random()*6));
 						String strDia="";
 
 						switch (tempDia){
-							case '0':
+							case 0:
 								strDia="lunes";
 								break;
-							case '1':
+							case 1:
 								strDia="martes";
 								break;
-							case '2':
+							case 2:
 								strDia="miércoles";
 								break;
-							case '3':
+							case 3:
 								strDia="jueves";
 								break;
-							case '4':
+							case 4:
 								strDia="viernes";
 								break;
-							case '5':
+							case 5:
 								strDia="sábado";
 								break;
 							default:
@@ -223,6 +244,28 @@ public class MapaUniversidad {
 				}
 			}
 		}
+	}
+
+
+
+	private int calcularIdxAula (int idxAula, String dia, String horaInicio, String horaFin, Integer i) {
+
+		boolean disponibilidad = aulas.get(idAulas.get(idxAula)).checkearHora(dia,horaInicio,horaFin);
+		boolean capacidad = aulas.get(idAulas.get(idxAula)).getCapacidad() >= materias.get(String.valueOf(i)).size();
+		boolean accesibilidad = (aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) || estudiantes.get(i)==0 ;
+
+		if (disponibilidad && capacidad && accesibilidad){
+			return idxAula;
+		}else {
+
+			return (calcularIdxAula(idxAula+1,dia,horaInicio,horaFin,i));
+		}
+	}
+
+	//método para Producir la salida de los archivos
+
+	private void producirSalida (){
+
 		StringBuilder builderProgramacion = new StringBuilder();
 		for (String i: idProgramacion){
 			if (!programacion.get(i).getIdAula().equals("00000"))
@@ -230,17 +273,22 @@ public class MapaUniversidad {
 		}
 
 		StringBuilder builderEstudiantes = new StringBuilder();
+		String temp="";
+		for (Integer i: idEstudiantes){
 
-		for (Integer i: estudiantesDiscapacitados){
-			//System.out.println(i+":");
-			builderEstudiantes.append(i+":\n");
+			temp=i+":\n";
 			for (Materias k: materias.get(String.valueOf(i))){
 				if (programacion.get(k.getCodigoMateriaGrupo())!=null){
-				//	System.out.println("\t\t"+programacion.get(k.getCodigoMateriaGrupo()).toCsv());
-					builderEstudiantes.append("\t\t\t"+programacion.get(k.getCodigoMateriaGrupo()).toCsv()+"\n");
+					temp+="\t\t\t"+programacion.get(k.getCodigoMateriaGrupo()).toCsv()+"\n";
+
 				}
 			}
-			builderEstudiantes.append("\n\n");
+			if (!temp.equals(i+":\n")){
+				builderEstudiantes.append(temp);
+				builderEstudiantes.append("\n\n");
+			}
+			temp="";
+
 		}
 
 
@@ -273,9 +321,10 @@ public class MapaUniversidad {
 				salidaEstudiantes.createNewFile();
 			}
 
+			//escribir sobre los archivos de salida
 
 			BufferedWriter bfHorario = new BufferedWriter(new FileWriter("salidaHorarioAulas.out"));
-		  BufferedWriter bfProgramacion = new BufferedWriter(new FileWriter("salidaProgramacion.out"));
+			BufferedWriter bfProgramacion = new BufferedWriter(new FileWriter("salidaProgramacion.out"));
 			BufferedWriter bfEstudiantes = new BufferedWriter(new FileWriter("salidaEstudiantes.out"));
 
 			bfHorario.write(builderFile.toString());
@@ -288,50 +337,6 @@ public class MapaUniversidad {
 		}catch (IOException e){
 				e.printStackTrace();
 		}
-
-		/*
-		System.out.println("Estudiantes asignados: "+estudiantesAsignados);
-		int iguales=0;
-
-		int noexiste=0;
-
-
-		for (String k:idMaterias){
-			for (Materias j: materias.get(k)){
-				if (programacion.get(j.getCodigoMateriaGrupo())!=null){
-
-					if (j.getCodigoMateriaGrupo().equals(programacion.get(j.getCodigoMateriaGrupo()).getCodigoMateriaGrupo())) {
-							iguales++;
-
-					}
-				}else {
-					noexiste++;
-				}
-			}
-
-		}
-
-		System.out.println("no existen = "+noexiste);
-		System.out.println("iguales = "+iguales);
-		*/
-		//System.out.println(estudiantesAsignados);
-	}
-
-
-
-	public int calcularIdxAula (int idxAula, String dia, String horaInicio, String horaFin, Integer i) {
-
-		boolean disponibilidad = aulas.get(idAulas.get(idxAula)).checkearHora(dia,horaInicio,horaFin);
-		boolean capacidad = aulas.get(idAulas.get(idxAula)).getCapacidad() >= materias.get(String.valueOf(i)).size();
-		boolean accesibilidad = (aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) || estudiantes.get(i)==0 ;
-
-		if (disponibilidad && capacidad && accesibilidad){
-			return idxAula;
-		}else {
-
-			return (calcularIdxAula(idxAula+1,dia,horaInicio,horaFin,i));
-		}
-
 	}
 
 
