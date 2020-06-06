@@ -166,6 +166,7 @@ public class MapaUniversidad {
 								temp.getCodigoMateriaGrupo());
 								clasesAsignadas.put(temp.getCodigoMateriaGrupo(),aulas.get(idAulas.get(idxAula)));
 								estudiantesAsignados++;
+							programacion.get(k.getCodigoMateriaGrupo()).setIdAula(idAulas.get(idxAula));
 						//}
 						idxAula=0;
 					}else {
@@ -209,7 +210,9 @@ public class MapaUniversidad {
 						 ((aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) ||estudiantes.get(i)==0)) {
 							idxAula++;
 						}
-
+						idProgramacion.add(k.getCodigoMateriaGrupo());
+						programacion.put(k.getCodigoMateriaGrupo(),new Programacion(k.getCodigoMateria(),k.getNumeroGrupo(),
+						"No Asignado",strDia,strHoraInicio,strHoraFinal,idAulas.get(idxAula)));
 						this.aulas.get(idAulas.get(idxAula)).agregarClase(
 							strDia,
 							strHoraInicio,
@@ -217,12 +220,16 @@ public class MapaUniversidad {
 							k.getCodigoMateriaGrupo());
 							clasesAsignadas.put(k.getCodigoMateriaGrupo(),aulas.get(idAulas.get(idxAula)));
 							estudiantesAsignados++;
-
 					}
 				}
 			}
 
 		}
+		StringBuilder builderProgramacion = new StringBuilder();
+		for (String i: idProgramacion){
+			builderProgramacion.append(programacion.get(i).toCsv()+"\n");
+		}
+
 
 		StringBuilder builderFile = new StringBuilder();
 		for (String i: idAulas){
@@ -232,10 +239,27 @@ public class MapaUniversidad {
 
 		try {
 			File salida = new File ("salidaHorarioAulas.out");
-			if (!salida.exists())salida.createNewFile();
+			File salidaProgramacion = new File ("salidaProgramacion.out");
+			if (!salida.exists()) {
+				salida.createNewFile();
+			}else {
+				salida.delete();
+				salida.createNewFile();
+			}
+			if (!salidaProgramacion.exists()) {
+				salidaProgramacion.createNewFile();
+			}else {
+				salidaProgramacion.delete();
+				salidaProgramacion.createNewFile();
+			}
 			BufferedWriter bf = new BufferedWriter(new FileWriter("salidaHorarioAulas.out"));
+		  BufferedWriter bfProgramacion = new BufferedWriter(new FileWriter("salidaProgramacion.out"));
 			bf.write(builderFile.toString());
+
 			bf.close();
+			bfProgramacion.write(builderProgramacion.toString());
+			bfProgramacion.close();
+
 		}catch (IOException e){
 				e.printStackTrace();
 		}

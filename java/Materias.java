@@ -13,6 +13,12 @@ public class Materias {
 		this.numeroGrupo = numeroGrupo;
 	}
 
+	public String getCodigoMateria(){
+		return this.codigoMateria;
+	}
+	public int getNumeroGrupo(){
+		return this.numeroGrupo;
+	}
 
 	public String getCodigoMateriaGrupo(){
 		return this.codigoMateria+"-"+String.valueOf(numeroGrupo);

@@ -92,10 +92,10 @@ public class Aulas {
 	public StringBuilder horarioToFile (){
 		StringBuilder retorno= new StringBuilder("\n");
 		retorno.append("\n"+this.idAula+": \n\n");
-		retorno.append("lunes\t\tMartes\t\t\tMiércoles\t\t\tJueves\t\t\tViernes\t\t\tSábado\t\t\tDomingo\n");
+		retorno.append("lunes\t\t\t\tMartes\t\t\t\tMiércoles\t\t\t\tJueves\t\t\t\tViernes\t\t\t\tSábado\t\t\t\tDomingo\n");
 		for (int i = 0;i<horarioAula[0].length;i++){
 			for (int k =0;k<horarioAula.length;k++){
-				retorno.append(horarioAula[k][i]+"\t\t\t");
+				retorno.append(horarioAula[k][i]+"\t\t\t\t");
 
 			}
 			retorno.append("\n");

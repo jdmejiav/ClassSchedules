@@ -42,10 +42,18 @@ public class Programacion{
 			return this.idAula;
 	}
 
+	public String setIdAula(String idAula){
+		return this.idAula = idAula;
+	}
+
 	public String getCodigoMateriaGrupo(){
 		return this.codigoMateria+"-"+this.numeroGrupo;
 	}
 
+	public String toCsv(){
+		return codigoMateria+","+ numeroGrupo + ","+idProfesor+ ","+dia
+		+","+horaInicio+","+horaFin+","+idAula;
+	}
 	public String toString(){
 		return "codigoMateria "+codigoMateria+"\nnumeroGrupo "+ numeroGrupo + "\nidProfesor "+idProfesor+ "\ndia "+dia
 		+"\nhoraInicio "+horaInicio+"\nhoraFin "+horaFin+"\nidAula "+idAula;
