@@ -18,13 +18,13 @@ public class Main {
 		File materias = new File ("sources/mat20192.csv");
 		MapaUniversidad mapaU = new MapaUniversidad(mapa, estudiantes, programacion, aulas,materias);
 		//System.out.println(mapa.getMapa()[38][31]);
-
+/*
 		Aulas aulaprueba = new Aulas ("12345","una Aula muy bonita","20",1);
 		aulaprueba.agregarClase("lunes","6:00","6:30","laqueacabodecrear");
 		aulaprueba.imprimirHorario();
 
 		System.out.println(aulaprueba.checkearHora("lunes","8:00","10:30"));
-
+*/
 	}
 
 

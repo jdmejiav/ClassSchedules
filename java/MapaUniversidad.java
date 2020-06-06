@@ -137,10 +137,10 @@ public class MapaUniversidad {
 	}
 
 	public void asinarDiscapacitados(){
-		System.out.println("materias "+materias.size());
-		System.out.println("estudiantes "+estudiantes.size());
-		System.out.println("programacion "+programacion.size());
-		System.out.println("aulas "+aulas.size());
+		//System.out.println("materias "+materias.size());
+		//System.out.println("estudiantes "+estudiantes.size());
+		//System.out.println("programacion "+programacion.size());
+		//System.out.println("aulas "+aulas.size());
 		int estudiantesAsignados=0;
 		int idxAula=0;
 		Programacion temp=new Programacion("",0,"","","","","");
@@ -173,8 +173,8 @@ public class MapaUniversidad {
 						idxAula=0;
 					}
 					else {
-						int tempHoraInicio= ((int) ((Math.random()*20)+1))+7;
-						int tempHoraFinal = ((int) (Math.random()*3)+2);
+						int tempHoraInicio= ((int) ((Math.random()*5)))+2;
+						int tempHoraFinal = tempHoraInicio+((int) (Math.random()*10))+1;
 						int tempDia = ((int)(Math.random()*6));
 						String strDia="";
 
@@ -202,14 +202,10 @@ public class MapaUniversidad {
 								break;
 						}
 
-						String strHoraInicio = String.valueOf((int)(tempHoraInicio))+":"+"00";
-						String strHoraFinal = String.valueOf((int)(tempHoraFinal))+":"+"00";
+						String strHoraInicio = String.valueOf((int)(tempHoraInicio+6))+":"+"00";
+						String strHoraFinal = String.valueOf((int)(tempHoraFinal+6))+":"+"00";
 
 						idxAula = calcularIdxAula(idxAula,strDia,strHoraInicio,strHoraFinal,i);
-
-						//System.out.println("Checar hora: " +(aulas.get(idAulas.get(idxAula)).checkearHora(strDia,strHoraInicio, strHoraFinal)));
-						//System.out.println("Capacidad: "+(aulas.get(idAulas.get(idxAula)).getCapacidad()>= materias.get(String.valueOf(i)).size()));
-						//System.out.println("Acceso: "+((aulas.get(idAulas.get(idxAula)).getAcceso()==1 && estudiantes.get(i)==1) ||estudiantes.get(i)==0));
 
 						if (clasesAsignadas.get(temp.getCodigoMateriaGrupo())==null) {
 							idProgramacion.add(k.getCodigoMateriaGrupo());
@@ -233,6 +229,20 @@ public class MapaUniversidad {
 			builderProgramacion.append(programacion.get(i).toCsv()+"\n");
 		}
 
+		StringBuilder builderEstudiantes = new StringBuilder();
+
+		for (Integer i: estudiantesDiscapacitados){
+			//System.out.println(i+":");
+			builderEstudiantes.append(i+":\n");
+			for (Materias k: materias.get(String.valueOf(i))){
+				if (programacion.get(k.getCodigoMateriaGrupo())!=null){
+				//	System.out.println("\t\t"+programacion.get(k.getCodigoMateriaGrupo()).toCsv());
+					builderEstudiantes.append("\t\t\t"+programacion.get(k.getCodigoMateriaGrupo()).toCsv()+"\n");
+				}
+			}
+			builderEstudiantes.append("\n\n");
+		}
+
 
 		StringBuilder builderFile = new StringBuilder();
 		for (String i: idAulas){
@@ -242,6 +252,8 @@ public class MapaUniversidad {
 		try {
 			File salida = new File ("salidaHorarioAulas.out");
 			File salidaProgramacion = new File ("salidaProgramacion.out");
+			File salidaEstudiantes = new File ("salidaEstudiantes.out");
+
 			if (!salida.exists()) {
 				salida.createNewFile();
 			}else {
@@ -254,13 +266,24 @@ public class MapaUniversidad {
 				salidaProgramacion.delete();
 				salidaProgramacion.createNewFile();
 			}
-			BufferedWriter bf = new BufferedWriter(new FileWriter("salidaHorarioAulas.out"));
-		  BufferedWriter bfProgramacion = new BufferedWriter(new FileWriter("salidaProgramacion.out"));
-			bf.write(builderFile.toString());
+			if (!salidaEstudiantes.exists()) {
+				salidaEstudiantes.createNewFile();
+			}else {
+				salidaEstudiantes.delete();
+				salidaEstudiantes.createNewFile();
+			}
 
-			bf.close();
+
+			BufferedWriter bfHorario = new BufferedWriter(new FileWriter("salidaHorarioAulas.out"));
+		  BufferedWriter bfProgramacion = new BufferedWriter(new FileWriter("salidaProgramacion.out"));
+			BufferedWriter bfEstudiantes = new BufferedWriter(new FileWriter("salidaEstudiantes.out"));
+
+			bfHorario.write(builderFile.toString());
+			bfHorario.close();
 			bfProgramacion.write(builderProgramacion.toString());
 			bfProgramacion.close();
+			bfEstudiantes.write(builderEstudiantes.toString());
+			bfEstudiantes.close();
 
 		}catch (IOException e){
 				e.printStackTrace();
@@ -291,7 +314,7 @@ public class MapaUniversidad {
 		System.out.println("no existen = "+noexiste);
 		System.out.println("iguales = "+iguales);
 		*/
-		System.out.println(estudiantesAsignados);
+		//System.out.println(estudiantesAsignados);
 	}
 
 
@@ -305,6 +328,7 @@ public class MapaUniversidad {
 		if (disponibilidad && capacidad && accesibilidad){
 			return idxAula;
 		}else {
+
 			return (calcularIdxAula(idxAula+1,dia,horaInicio,horaFin,i));
 		}
 
